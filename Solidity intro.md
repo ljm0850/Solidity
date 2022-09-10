@@ -44,16 +44,52 @@ contract Storage {
 ### 기본형 Primitives
 
 - **논리형**: bool(true / false)
+
 - **정수형**
+
+  - 가스비를 고려하여 적정 범위 설정 필요
   - uint : unsigned integer
     - 8~ 256bit 범위 내에서 가능
     - default 는 `unit256`
     - `unit8` 이런 형식으로 정의
   - int : signed integer
+    - `Int8` : -128 ~ 127
+
+- Fixed Point Numbers(ex)1.1...)
+
+  - https://solidity-kr.readthedocs.io/ko/latest/types.html#index-4
+  - 가능하면 사용하지 말자
+  - ufixedMxN or fixedMxN
+    - ufixed128x18 => 128bits, 18 decimal points
+
 - **주소형**
+
   - address : 이더리움의 주소를 표현함
+
 - **바이트형**
+
   - `bytes#`,`byte[]` : 데이터를 바이트로 표현  
+  - 원데이터를 보관하기 위함
+
+- **String**
+
+  - String과 Bytes는 special arrays
+
+  - bytes와 같지만, length나 index-access가 불가
+
+  - UTF8 데이터 저장용
+
+  - 가스비가 비쌈..
+
+  - ```solidity
+    string public myString = "Hello World!";
+        // 해당 인수가 있는 데이터 위치를 지정해줘야 함
+        // 문자열이나 다른 참조 유형이 있으면 memory 키워드 입력 (이 인수가 스토리지 변수가 아닌 메모리에 저장될 것을 알려줌)
+        function setMyString(string memory _myString) public {
+            myString = _myString;
+        }
+    ```
+
 
 #### 접근 제어자 Visibility
 
@@ -137,6 +173,8 @@ struct Todo {
 
 
 
+## 연산
+
 ### 함수
 
 ```solidity
@@ -205,3 +243,16 @@ contract Function {
 
 - 비트코인의 경우 반복문을 제공 x (블록체인은 모든 컴퓨터에서 돌아가서 리스크가 너무 큼)
 - 이더리움은 무한 반복 같은 상황에서 gas limit에 의해 실행 취소됨
+
+
+
+## 연산자
+
+- **NOT** : `!`
+  - `myVar = !myVar`
+- **AND** : `&&`
+- **OR** : `||` 
+
+
+
+- 2^8 : 2**8
