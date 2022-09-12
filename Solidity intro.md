@@ -65,6 +65,7 @@ contract Storage {
 - **주소형**
 
   - address : 이더리움의 주소를 표현함
+  - [Address 관련 함수][https://solidity-kr.readthedocs.io/ko/latest/units-and-global-variables.html?highlight=send#address]
 
 - **바이트형**
 
