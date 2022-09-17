@@ -245,6 +245,49 @@ contract Function {
 - 비트코인의 경우 반복문을 제공 x (블록체인은 모든 컴퓨터에서 돌아가서 리스크가 너무 큼)
 - 이더리움은 무한 반복 같은 상황에서 gas limit에 의해 실행 취소됨
 
+### try catch
+
+- 0.6ver에서 추가됨
+
+```solidity
+contract ContractA {
+	function A() public pure {
+		require(false, "A");
+	}
+	function B() public pure {
+		revert("B");
+	}
+	function C() public pure {
+		assert(false);
+	}
+}
+
+contract ContractB {
+	ContractA instA;
+	
+	event Error(String _reason);
+	event LowLevelError(bytes _reason);
+	
+	constructor() public {
+		instA = new ContractA();
+	}
+	
+	function testRequireTryCatch public returns(bool) {
+		try instA.A() {
+			return true;
+		} catch Error(string memory reason) {	//return값이 string일 경우(A)
+			emit Error(reason);
+			return false
+		} catch (bytes memory lowLevelData) { 	// B,C 
+			emit LowLevelError(lowLevelData);
+			retrun false;
+		}
+	}
+}
+```
+
+
+
 
 
 ## 연산자
@@ -257,3 +300,24 @@ contract Function {
 
 
 - 2^8 : 2**8
+
+
+
+---
+
+- OpenZeppelin... SafeMath ...
+
+```solidity
+import "https://github..."
+
+contract ljm {
+	using SafeMath for uint;
+	
+	mapping(address => uint) public tokenBalance;
+	
+	function sendToken(address _to, uint _amount) public returns(bool){
+		tokenBalance[msg.sender] = tokenBalance[msg.sender].sub(_amount)
+	}
+}
+```
+

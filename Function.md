@@ -12,7 +12,7 @@ contract Functions {
 		assert(balanceReceived[msg.sender]+msg.value >= balanceReceived[msg.sender]);
 		balanceReceived[msg.sender] += msg.value
 	}
-
+	// fallback 함수
 	function () external payable {
 		receiveMoney();
 		}
@@ -20,12 +20,31 @@ contract Functions {
 ```
 
 - 매칭되는 함수가 없거나, 트랙잭션 인코딩 데이터 필드에 일치하는 함수가 없을때 사용
-
 - 인수가 있던 없든 사용 가능
 - 반드시 external
 - 주 사용처
   - 함수와 상호 작용하지 않고 스마트 계약에 이더를 보내는 경우
-  - 
+
+### receive
+
+- 0.6ver에서 추가
+
+```solidity
+contract fallbacktest {
+	event SentEvent(address _addr, uint _amount);
+	
+	receive() external payable{
+		emit SentEvent(msg.sender, msg.value);
+	}
+	
+	fallback () external{
+	
+	}
+}
+```
+
+- Value를 보낼 경우 receive()가 작동
+- Value가 없을 경우 fallback이 작동
 
 
 
@@ -87,3 +106,40 @@ contract Functions {
 
 - 배포 중 한 번만 호출됨
 - Public 혹은 Internal로만 사용 가능
+
+
+
+## virtual & override
+
+- 0.6ver에서 추가됨
+
+### virtual
+
+- 함수의 override (재정의) 허가 여부
+
+### override
+
+- virtual로 정의된 함수를 override 하기 위해 붙임
+
+```solidity
+contract A {
+	event MyEvent(string _myString)
+	function funA() public virtual{
+		emit MyEvent("from A");
+	}
+}
+
+contract B {
+	function funA() public virtual {
+		//nothing
+	}
+}
+
+contract C is B,A {
+	function funA() public override(A,B){ //여기서 A,B순서는 중요하지 않음  
+		emit MyEvent("from C");
+		super.funA();
+	}
+}
+```
+
