@@ -33,3 +33,24 @@ contract EventTest{
 - 최대 3개의 매개변수를 index로 사용 가능
 
 - 체인에 저장된 데이터를 내보낼 수 있음
+
+
+
+### indexed
+
+```solidity
+contract indexedTest {
+    event myEvent(
+        address indexed _from,
+        address indexed _to,
+        uint _amount
+    );
+
+    function pay(address _to) payable {
+        myEvent(msg.sender, _to, msg.value);
+    }
+}
+```
+
+- event로 인자를 받을 때 필터링이 가능하게 하는 기능
+
