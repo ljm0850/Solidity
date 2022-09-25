@@ -12,6 +12,9 @@
 - `block.gaslimit` (`uint`): 현재 블록 gaslimit
 - `block.number` (`uint`): 현재 블록 번호
 - `block.timestamp` (`uint`): unix epoch 이후의 현재 블록 타임스탬프
+  - 단위는 초단위
+  - 값 갱신에 약 10초 정도 걸린다
+
 - `gasleft() returns (uint256)`: 잔여 가스
 - `msg.data` (`bytes`): 완전한 calldata
 - `msg.gas` (`uint`): 잔여 가스 - 0.4.21버전에서 제거되었으며 `gasleft()` 로 대체됨
